@@ -21,6 +21,10 @@ def parse_known_args():
                         help='Set higher verbosity level for more detailed '
                         'information: 1. Critical, 2. Error, 3. Warning, '
                         '4. Info, 5. Debug', choices=range(1, 6))
+    parser.add_argument('-o', '--old', type=str,
+                        help='Old word to be replaced')
+    parser.add_argument('-n', '--new', type=str,
+                        help='New replacement word')
 
     args, otherthings = parser.parse_known_args()
     return args, otherthings
@@ -38,6 +42,8 @@ def main():
         verbosity = args.verbosity
 
     far = Far(verbosity=verbosity)
+
+    far.find_and_replace(old=args.old, new=args.new)
 
 if __name__ == '__main__':
     sys.exit(main())

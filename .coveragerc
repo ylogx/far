@@ -1,0 +1,8 @@
+[run]
+branch = True
+omit = /usr*,/opt*,setup.py,*egg*,*virtualenv*,.venv/*,.tox/*,test/*,tests/*,/Library*
+
+[report]
+ignore-errors = True
+exclude_lines =
+    if __name__ == .__main__.:

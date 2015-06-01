@@ -5,6 +5,7 @@ import logging
 
 from .logger import Logger
 
+
 class Far:
     """ Far class
     """

@@ -22,16 +22,28 @@ class TestFar(unittest.TestCase):
         self.obj = Far()
 
     @patch('os.system')
+    def test_should_do_nothing_if_old_is_empty(self, mock_system):
+        mock_system.return_value = 0
+        self.obj.find_and_replace('', self.new)
+        self.assertFalse(mock_system.called)
+
+    @patch('os.system')
+    def test_should_do_nothing_if_new_is_empty(self, mock_system):
+        mock_system.return_value = 0
+        self.obj.find_and_replace(self.old, '')
+        self.assertFalse(mock_system.called)
+
+    @patch('os.system')
     def test_should_do_nothing_if_old_is_none(self, mock_system):
         mock_system.return_value = 0
         self.obj.find_and_replace(None, self.new)
-        self.assertEqual(mock_system.called, 0)
+        self.assertFalse(mock_system.called)
 
     @patch('os.system')
     def test_should_do_nothing_if_new_is_none(self, mock_system):
         mock_system.return_value = 0
         self.obj.find_and_replace(self.old, None)
-        self.assertEqual(mock_system.called, 0)
+        self.assertFalse(mock_system.called)
 
     @patch('os.system')
     def test_should_run_system_command(self, mock_system):

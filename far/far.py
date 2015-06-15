@@ -15,7 +15,7 @@ class Far:
         self.logger = Logger(self.verbosity)
 
     def find_and_replace(self, old=None, new=None):
-        if old is None or new is None:
+        if not old or not new:
             return
         cmd = "find . -type f -not -path '*/\.git*' -exec sed -i 's/" + old + "/" + new + "/g' {} +  "
         os.system(cmd)

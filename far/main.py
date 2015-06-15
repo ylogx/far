@@ -10,7 +10,7 @@ from . import __version__
 from .far import Far
 
 
-def print_version():
+def print_version():    # pragma: no cover
     print('Far version %s' % __version__)
     print('Copyright (c) 2015 by Shubham Chaudhary.')
     print('License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>')

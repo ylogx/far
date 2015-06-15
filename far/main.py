@@ -6,13 +6,26 @@ import sys
 import os
 import argparse
 
+from . import __version__
 from .far import Far
+
+
+def print_version():
+    print('Far version %s' % __version__)
+    print('Copyright (c) 2015 by Shubham Chaudhary.')
+    print('License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>')
+    print('This is free software: you are free to change and redistribute it.')
+    print('There is NO WARRANTY, to the extent permitted by law.')
 
 
 def parse_known_args():
     """ Parse command line arguments
     """
     parser = argparse.ArgumentParser()
+    parser.add_argument('-V', '--version',
+                        action='store_true',
+                        dest='version',
+                        help='Print the version number and exit')
     mutually_exclusive_group = parser.add_mutually_exclusive_group()
     mutually_exclusive_group.add_argument(
         '-v', '--verbose',
@@ -40,6 +53,10 @@ def main():
     """ Main
     """
     args, otherthings = parse_known_args()
+
+    if args.version:
+        print_version()
+        return 0
 
     verbosity = 0
     if args.verbose:

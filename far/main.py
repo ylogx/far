@@ -33,13 +33,6 @@ def parse_known_args():
         help='Show verbose information.'
         ' Higher verbosity can be selected by --verbosity '
         'flag')
-    mutually_exclusive_group.add_argument(
-        '-l', '--verbosity',
-        type=int,
-        help='Set higher verbosity level for more detailed '
-        'information: 1. Critical, 2. Error, 3. Warning, '
-        '4. Info, 5. Debug',
-        choices=range(1, 6))
     parser.add_argument('-o', '--old',
                         type=str,
                         help='Old word to be replaced')
@@ -61,8 +54,6 @@ def main():
     verbosity = 0
     if args.verbose:
         verbosity = 1
-    elif args.verbosity:
-        verbosity = args.verbosity
 
     far = Far(verbosity=verbosity)
 

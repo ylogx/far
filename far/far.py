@@ -3,8 +3,6 @@ from __future__ import print_function
 import os
 import logging
 
-from .logger import Logger
-
 
 class Far:
     """ Far class
@@ -12,7 +10,6 @@ class Far:
 
     def __init__(self, verbosity=0):
         self.verbosity = verbosity
-        self.logger = Logger(self.verbosity)
 
     def find_and_replace(self, old=None, new=None):
         if not old or not new:

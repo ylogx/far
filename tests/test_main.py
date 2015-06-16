@@ -21,6 +21,8 @@ from far.main import main
 class TestMain(unittest.TestCase):
     def setUp(self):
         self.argv_backup = sys.argv
+        self.old = 'old-pattern'
+        self.new = 'new-pattern'
 
     def tearDown(self):
         sys.argv = self.argv_backup
@@ -56,6 +58,25 @@ class TestMain(unittest.TestCase):
         sys.argv = ['dummy', '--verbose']
         main()
         mock_far.assert_called_once_with(verbosity=1)
+
+    @patch('far.main.Far.dry_run')
+    def test_should_call_dry_run_if_short_flag_passed(self, mock_far):
+        mock_far.return_value = 0
+        sys.argv = ['dummy', '-d', '-o', self.old]
+
+        main()
+
+        mock_far.assert_called_once_with(old=self.old)
+
+
+    @patch('far.main.Far.find_and_replace')
+    def test_should_call_find_and_replace(self, mock_far):
+        mock_far.return_value = 0
+        sys.argv = ['dummy', '-o', self.old, '-n', self.new]
+
+        main()
+
+        mock_far.assert_called_once_with(old=self.old, new=self.new)
 
 
 class AnyStringContaining(str):

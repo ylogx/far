@@ -31,12 +31,12 @@ def parse_known_args():
         '-v', '--verbose',
         action='store_true',
         help='Show verbose information.'
-        ' Higher verbosity can be selected by --verbosity '
-        'flag')
+        ' Higher verbosity can be selected by --verbosity flag')
     parser.add_argument('-o', '--old',
                         type=str,
                         help='Old word to be replaced')
     parser.add_argument('-n', '--new', type=str, help='New replacement word')
+    parser.add_argument('-d', '--dry-run', action='store_true', help='Dry Run')
 
     args, otherthings = parser.parse_known_args()
     return args, otherthings
@@ -57,7 +57,10 @@ def main():
 
     far = Far(verbosity=verbosity)
 
-    far.find_and_replace(old=args.old, new=args.new)
+    if args.dry_run:
+        far.dry_run(old=args.old)
+    else:
+        far.find_and_replace(old=args.old, new=args.new)
 
 
 if __name__ == '__main__':

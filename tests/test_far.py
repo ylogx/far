@@ -46,13 +46,41 @@ class TestFar(unittest.TestCase):
         self.assertFalse(mock_system.called)
 
     @patch('os.system')
-    def test_should_run_system_command(self, mock_system):
+    def test_should_run_replace_system_command(self, mock_system):
         mock_system.return_value = 0
 
         self.obj.find_and_replace(self.old, self.new)
 
         cmd = "find . -type f -not -path '*/\.git*' -exec sed -i 's/" + self.old + "/" + self.new + "/g' {} +  "
         mock_system.assert_called_once_with(cmd)
+
+class TestDryRun(unittest.TestCase):
+    def setUp(self):
+        self.old = 'asdfadfas'
+        self.new = 'asdfadfas'
+        self.obj = Far()
+
+    @patch('os.system')
+    def test_should_do_nothing_if_old_is_empty(self, mock_system):
+        mock_system.return_value = 0
+        self.obj.dry_run('')
+        self.assertFalse(mock_system.called)
+
+    @patch('os.system')
+    def test_should_do_nothing_if_old_is_none(self, mock_system):
+        mock_system.return_value = 0
+        self.obj.dry_run(None)
+        self.assertFalse(mock_system.called)
+
+    @patch('os.system')
+    def test_should_run_grep_system_command(self, mock_system):
+        mock_system.return_value = 0
+
+        self.obj.dry_run(self.old)
+
+        cmd = "find . -type f -not -path '*/\.git*' -exec grep " + self.old + " {} +"
+        mock_system.assert_called_once_with(cmd)
+
 
 class AnyStringContaining(str):
     def __eq__(self, other):

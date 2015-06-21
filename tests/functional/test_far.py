@@ -8,33 +8,37 @@ try:
 except ImportError:
     import unittest2 as unittest
 
-try:
-    from tempfile import TemporaryDirectory
-except ImportError:
-    from utils import TemporaryDirectory
+from shutil import rmtree
+from tempfile import mkdtemp
 
 from far import main
 
 
 class TestFunctionalFindAndReplace(unittest.TestCase):
-    def test_find_and_replace(self):
-        with TemporaryDirectory() as tempdir:
-            subdirs = ['a/b/c/d.cpp', 'd/e/f/g.c', 'h/i/j.py']
-            paths = [os.path.join(tempdir, p) for p in subdirs]
-            for path in paths:
-                create(path)
-                jibber_in = write_jibber(path)
-            os.chdir(tempdir)
-            old = 'lorem'
-            new = 'merol'
+    def setUp(self):
+        self.tempdir = mkdtemp()
+        subdirs = ['a/b/c/d.cpp', 'd/e/f/g.c', 'h/i/j.py']
+        self.paths = [os.path.join(self.tempdir, p) for p in subdirs]
+        for path in self.paths:
+            create(path)
+            jibber_in = write_jibber(path)
+        os.chdir(self.tempdir)
+        self.old = 'lorem'
+        self.new = 'merol'
 
-            sys.argv = ['dummy', '-o', old, '-n', new]
-            main.main()
+    def tearDown(self):
+        rmtree(self.tempdir)
 
-            for path in paths:
-                with open(path) as fhan:
-                    jibber_out = fhan.read()
-                    self.assertFalse(old in jibber_out)
+
+    def test_should_find_and_replace_in_files(self):
+        sys.argv = ['dummy', '-o', self.old, '-n', self.new]
+
+        main.main()
+
+        for path in self.paths:
+            with open(path) as fhan:
+                jibber_out = fhan.read()
+                self.assertFalse(self.old in jibber_out)
 
 
 def write_jibber(path):

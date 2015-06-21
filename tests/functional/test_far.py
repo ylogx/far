@@ -8,7 +8,10 @@ try:
 except ImportError:
     import unittest2 as unittest
 
-from tempfile import TemporaryDirectory
+try:
+    from tempfile import TemporaryDirectory
+except ImportError:
+    from utils import TemporaryDirectory
 
 from far import main
 

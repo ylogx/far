@@ -40,6 +40,17 @@ class TestFunctionalFindAndReplace(unittest.TestCase):
                 jibber_out = fhan.read()
                 self.assertFalse(self.old in jibber_out)
 
+    def test_should_not_edit_in_dry_run_mode(self):
+            sys.argv = ['dummy', '-d', '-o', self.old]
+
+            main.main()
+
+            for path in self.paths:
+                with open(path) as fhan:
+                    jibber_out = fhan.read()
+                    self.assertFalse(self.new in jibber_out)
+
+
 
 def write_jibber(path):
     """ Write jibberish content in file """

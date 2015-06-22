@@ -9,7 +9,7 @@ Far
 
 
 ```
-find . -type f -not -path '*/\.git*' -exec sed -i 's/foo/bar/g' {} + 
+find . -type f -not -path '*/\.git*' -exec sed -i 's/foo/bar/g' {} +
 ```
 
 Why is doing a find and replace with pattern so messy?  

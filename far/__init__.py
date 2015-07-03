@@ -1,4 +1,7 @@
-from pkg_resources import get_distribution
+from pkg_resources import get_distribution, DistributionNotFound
 from .far import Far
 
-__version__ = get_distribution('far').version
+try:
+    __version__ = get_distribution('far').version
+except DistributionNotFound:
+    __version__ = '0.0.0'
